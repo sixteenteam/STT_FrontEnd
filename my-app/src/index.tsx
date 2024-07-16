@@ -1,7 +1,11 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter } from 'react-router-dom';
+import { GlobalStyle } from './themes/globalStyle';
+import { ThemeProvider } from 'styled-components';
+import './themes/fonts.css';
 import App from './App';
+import theme from './themes/theme';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,9 +26,12 @@ if (!container) {
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
-  </React.StrictMode>,
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <GlobalStyle />
+        <App />
+      </BrowserRouter>
+    </ThemeProvider>
+  </QueryClientProvider>,
 );
