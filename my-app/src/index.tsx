@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import './themes/fonts.css';
 import App from './App';
 import theme from './themes/theme';
+import { Toaster } from 'react-hot-toast';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +32,7 @@ root.render(
       <BrowserRouter>
         <GlobalStyle />
         <App />
+        <Toaster />
       </BrowserRouter>
     </ThemeProvider>
   </QueryClientProvider>,
