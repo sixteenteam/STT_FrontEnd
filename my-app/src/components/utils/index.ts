@@ -9,10 +9,10 @@ const localStorage = window.localStorage;
 instance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('access_token');
+    console.log(accessToken);
     const returnConfig = { ...config };
-    if (accessToken) {
-      returnConfig.headers['Authorization'] = `Bearer ${accessToken}`;
-    }
+    returnConfig.headers['Authorization'] = `Bearer ${accessToken}`;
+
     return returnConfig;
   },
   (error) => Promise.reject(error),

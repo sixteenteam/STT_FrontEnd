@@ -2,44 +2,105 @@ import { styled } from 'styled-components';
 import Button from '../components/common/Button';
 import theme from '../themes/theme';
 import { Pencil } from '../assets';
+import { useProfile } from '../api/users';
+import { useState } from 'react';
+import { useUploadImg } from '../api/users';
+import { TimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const MyPage = () => {
+  const { data: UserData } = useProfile();
+  const { mutate: uploadImg } = useUploadImg();
+
+  const [selectedImage, setSelectedImage] = useState<
+    string | ArrayBuffer | null
+  >(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      uploadImg(file, {
+        onSuccess: () => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setSelectedImage(reader.result);
+          };
+          reader.readAsDataURL(file);
+        },
+      });
+    }
+  };
+
   return (
-    <Container>
-      <Top>
-        <p>
-          <WhereElearnTitle>왜이러닝</WhereElearnTitle>
-          <Title>마이페이지</Title>
-        </p>
-        <ProfileWrap>
-          <ChangeProfile>
-            <img src="" alt="" width={80} height={80} />
-            <Fix>
-              <img src={Pencil} alt="" />
-            </Fix>
-          </ChangeProfile>
-          <ProfileContent>
-            <Name>이름</Name>
-            <Tier>등급</Tier>
-          </ProfileContent>
-        </ProfileWrap>
-        <Content>
-          <p>등급 : {}</p>
-          <p>포인트 : {}</p>
-        </Content>
-      </Top>
-      <StockContainer>
-        <StockTitle>
-          {'OOO'}님은 <br /> 현재 <Point>{0}원</Point> 벌고있습니다
-        </StockTitle>
-        <Button text="모의투자 더 하러가기" />
-      </StockContainer>
-      <div>경제 뉴스 알림 설정</div>
-    </Container>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Container>
+        <Top>
+          <p>
+            <WhereElearnTitle>왜이러닝</WhereElearnTitle>
+            <Title>마이페이지</Title>
+          </p>
+          <ProfileWrap>
+            <ChangeProfile>
+              <ProfileImage
+                src={
+                  selectedImage
+                    ? selectedImage.toString()
+                    : UserData?.profileImage
+                }
+                alt=""
+                width={80}
+                height={80}
+              />
+              <Fix
+                onClick={() => document.getElementById('imageUpload')?.click()}
+              >
+                <img src={Pencil} alt="" />
+              </Fix>
+              <input
+                id="imageUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+              />
+            </ChangeProfile>
+            <ProfileContent>
+              <Name>{UserData?.name}</Name>
+              <Tier>{UserData?.tier}</Tier>
+            </ProfileContent>
+          </ProfileWrap>
+          <Content>
+            <p>등급 : {UserData?.tier}</p>
+            <p>포인트 : {UserData?.score}</p>
+          </Content>
+        </Top>
+        <StockContainer>
+          <StockTitle>
+            {UserData?.name}님은 <br /> 현재 <Point>{0}원</Point> 벌고있습니다
+          </StockTitle>
+          <Button text="모의투자 더 하러가기" />
+        </StockContainer>
+        <Alarm>
+          <div>경제 뉴스 알림 설정</div>
+          <TimePicker />
+        </Alarm>
+      </Container>
+    </LocalizationProvider>
   );
 };
 
 export default MyPage;
+
+const ProfileImage = styled.img`
+  border-radius: 50%;
+`;
+
+const Alarm = styled.div`
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
 
 const ProfileWrap = styled.div`
   display: flex;
@@ -111,7 +172,7 @@ const Content = styled.div`
 
 const StockContainer = styled.div`
   background-color: ${theme.colors.light.primary10};
-  padding: 12px 24px;
+  padding: 24px;
   gap: 12px;
   display: flex;
   flex-direction: column;

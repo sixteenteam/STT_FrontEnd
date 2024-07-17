@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { instance } from '../components/utils';
 import { useNavigate } from 'react-router-dom';
 import { setToken } from '../components/utils/Token';
@@ -19,6 +19,13 @@ export interface ISignupResponse {
   refreshToken: string;
 }
 
+export interface ProfileProps {
+  score: number;
+  name: string;
+  tier: string;
+  profileImage: string;
+}
+
 export const useSignup = () => {
   const navigate = useNavigate();
   return useMutation({
@@ -31,6 +38,32 @@ export const useSignup = () => {
     },
     onError: () => {
       console.error('회원가입에 실패했어요.');
+    },
+  });
+};
+
+export const useProfile = () => {
+  return useQuery<ProfileProps>({
+    queryKey: ['profile'],
+    queryFn: async () => {
+      const { data } = await instance.get(`${router}/mypage`);
+      return data;
+    },
+  });
+};
+
+export const useUploadImg = () => {
+  return useMutation({
+    mutationFn: (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      return instance.patch<string>(`${router}/profile`, formData);
+    },
+    onSuccess: () => {
+      toast.success('이미지 등록 성공');
+    },
+    onError: () => {
+      toast.error('이미지 등록에 실패했어요');
     },
   });
 };

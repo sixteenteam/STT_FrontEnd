@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/Landing';
 import SignUp from './pages/Signup';
 import SocialKakao from './SocialKaKao';
-import NewsPage from './pages/newsPage';
 import MyPage from './pages/myPage';
 
 const Router = () => {
@@ -11,7 +10,6 @@ const Router = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/scul/users/login" element={<SocialKakao />} />
-      <Route path="news" element={<NewsPage />} />
       <Route path="/myPage" element={<MyPage />} />
     </Routes>
   );
