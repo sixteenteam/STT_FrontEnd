@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import Button from '../components/common/Button';
 import theme from '../themes/theme';
@@ -9,6 +10,22 @@ import { TimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const MyPage = () => {
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      const { type, token: receivedToken } = event.data;
+
+      if (type === 'TOKEN_MESSAGE') {
+        localStorage.setItem('access_token', receivedToken);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
   const { data: UserData } = useProfile();
   const { mutate: uploadImg } = useUploadImg();
 
@@ -28,6 +45,20 @@ const MyPage = () => {
           reader.readAsDataURL(file);
         },
       });
+    }
+  };
+
+  const sendTokenToNative = () => {
+    const accessToken = localStorage.getItem('access_token');
+    if (accessToken && window.webkit?.messageHandlers?.tokenHandler) {
+      window.webkit.messageHandlers.tokenHandler.postMessage({
+        type: 'TOKEN_MESSAGE',
+        token: accessToken,
+      });
+    } else {
+      console.error(
+        'Access token not found or webkit.messageHandlers.tokenHandler not available.',
+      );
     }
   };
 
@@ -78,7 +109,7 @@ const MyPage = () => {
           <StockTitle>
             {UserData?.name}님은 <br /> 현재 <Point>{0}원</Point> 벌고있습니다
           </StockTitle>
-          <Button text="모의투자 더 하러가기" />
+          <Button text="모의투자 더 하러가기" onClick={sendTokenToNative} />
         </StockContainer>
         <Alarm>
           <div>경제 뉴스 알림 설정</div>

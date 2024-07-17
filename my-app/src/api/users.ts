@@ -34,7 +34,7 @@ export const useSignup = () => {
     onSuccess: (res) => {
       toast.success('회원가입에 성공했어요.');
       setToken(res.data.accessToken, res.data.refreshToken);
-      navigate('/home'); //TODO :: 네비게이트 수정 필요
+      navigate('/home');
     },
     onError: () => {
       console.error('회원가입에 실패했어요.');
