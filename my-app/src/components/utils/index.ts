@@ -10,9 +10,8 @@ instance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('access_token');
     const returnConfig = { ...config };
-    if (accessToken) {
-      returnConfig.headers['Authorization'] = `Bearer ${accessToken}`;
-    }
+    returnConfig.headers['Authorization'] = `Bearer ${accessToken}`;
+
     return returnConfig;
   },
   (error) => Promise.reject(error),

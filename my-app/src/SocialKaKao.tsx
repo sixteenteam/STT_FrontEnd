@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import LOGO from './assets/fonts/kakao_login_medium_wide.png';
 import { UserInfo } from './themes/type';
 import { useNavigate } from 'react-router-dom';

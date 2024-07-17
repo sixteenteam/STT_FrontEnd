@@ -3,7 +3,6 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Logo } from '../assets';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Props } from '../App'; // Props가 App에서 정확히 정의되어 있는지 확인하세요
 import SocialKakao from '../SocialKaKao';
 
 const fadeIn = keyframes`
