@@ -73,7 +73,39 @@ export type Colors = {
   };
 };
 
-export type Theme = {
+export type Themes = {
   fontSizes: FontSizes;
   colors: Colors;
 };
+
+export interface UserProfile {
+  nickname: string;
+  profile_image?: string; // 640x640
+  thumbnail_image?: string; // 110x110
+}
+
+export interface KakaoProfile {
+  nickname: string;
+  thumbnail_image_url: string;
+  profile_image_url: string;
+  is_default_image: boolean;
+  is_default_nickname: boolean;
+}
+
+export interface KakaoAccount {
+  profile_nickname_needs_agreement: boolean;
+  profile_image_needs_agreement: boolean;
+  profile: KakaoProfile;
+  has_email: boolean;
+  email_needs_agreement: boolean;
+  is_email_valid: boolean;
+  is_email_verified: boolean;
+  email: string;
+}
+
+export interface UserInfo {
+  id: number;
+  connected_at: string;
+  properties: UserProfile;
+  kakao_account: KakaoAccount;
+}
