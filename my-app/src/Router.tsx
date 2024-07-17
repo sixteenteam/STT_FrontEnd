@@ -10,7 +10,7 @@ const Router = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/scul/users/login" element={<SocialKakao />} />
-      <Route path="/myPage" element={<MyPage />} />
+      <Route path="/myPage/:token" element={<MyPage />} />
     </Routes>
   );
 };

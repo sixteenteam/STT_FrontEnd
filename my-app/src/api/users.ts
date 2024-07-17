@@ -20,6 +20,7 @@ export interface ISignupResponse {
 }
 
 export interface ProfileProps {
+  userId: string;
   score: number;
   name: string;
   tier: string;
