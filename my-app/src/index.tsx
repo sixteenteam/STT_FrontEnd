@@ -8,6 +8,7 @@ import App from './App';
 import theme from './themes/theme';
 import { Toaster } from 'react-hot-toast';
 
+// Initialize query client
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
