@@ -12,7 +12,7 @@ const SocialKakao = () => {
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [, setUserInfo] = useState<UserInfo | null>(null);
   const setEmail = useUserStore((state) => state.setEmail);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -40,7 +40,7 @@ const SocialKakao = () => {
           setAccessToken(data.access_token);
         })
         .catch((error) => {
-          console.error('Error:', error);
+          toast.error('Error:', error);
         });
     }
   }, []);
@@ -65,8 +65,7 @@ const SocialKakao = () => {
             navigate('/signup');
           })
           .catch((error) => {
-            console.error('Error:', error);
-            toast.error('사용자 정보를 받아오는 중 오류가 발생했습니다.');
+            toast.error(error);
           })
           .finally(() => {
             setLoading(false);
@@ -78,11 +77,6 @@ const SocialKakao = () => {
   return (
     <>
       {!loading && <img src={LOGO} onClick={handleLogin} alt="Kakao Login" />}
-      {userInfo && (
-        <div>
-          <h2>{userInfo.kakao_account.email}</h2>
-        </div>
-      )}
     </>
   );
 };

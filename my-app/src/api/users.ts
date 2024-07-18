@@ -5,7 +5,9 @@ import { setToken } from '../components/utils/Token';
 import toast from 'react-hot-toast';
 
 const router = '/users';
-
+export interface ILoginRequest {
+  email: string;
+}
 export interface ISignupReqeust {
   email: string;
   name: string;
@@ -16,7 +18,6 @@ export interface ISignupReqeust {
 export interface ISignupResponse {
   accessToken: string;
   accessTokenExp: string;
-  refreshToken: string;
 }
 
 export interface ProfileProps {
@@ -34,11 +35,26 @@ export const useSignup = () => {
       instance.post<ISignupResponse>(`${router}/signup`, data),
     onSuccess: (res) => {
       toast.success('회원가입에 성공했어요.');
-      setToken(res.data.accessToken, res.data.refreshToken);
+      setToken(res.data.accessToken);
+      navigate('/quiz'); //TODO :: 네비게이트 수정 필요
+      setToken(res.data.accessToken);
       navigate('/home');
     },
+  });
+};
+
+export const useLogin = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: (data: ILoginRequest) =>
+      instance.post<ISignupResponse>(`${router}/login`, data),
+    onSuccess: (res) => {
+      toast.success('로그인에 성공했어요.');
+      setToken(res.data.accessToken);
+      navigate('/quiz'); //TODO :: 네비게이트 수정 필요
+    },
     onError: () => {
-      console.error('회원가입에 실패했어요.');
+      toast.error('로그인에 실패했어요.');
     },
   });
 };

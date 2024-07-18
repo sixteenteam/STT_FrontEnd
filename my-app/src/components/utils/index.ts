@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -8,7 +9,7 @@ const localStorage = window.localStorage;
 
 instance.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem('accessToken');
     const returnConfig = { ...config };
     returnConfig.headers['Authorization'] = `Bearer ${accessToken}`;
 
@@ -29,13 +30,12 @@ instance.interceptors.response.use(
         status === 401 ||
         data.message === 'User Not Found'
       ) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
 
-        alert('로그인이 만료됐어요. 다시 로그인 해주세요.');
+        toast.arguments('로그인이 만료됐어요. 다시 로그인 해주세요.');
 
         const goToLogin = setTimeout(() => {
-          console.log('이동');
           window.location.href = '/login';
           clearTimeout(goToLogin);
         }, 1000);

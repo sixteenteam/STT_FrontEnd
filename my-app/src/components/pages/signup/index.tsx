@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Props } from '../../../App';
 import { useState } from 'react';
 import { useUserStore } from '../../store/auth';
+import SocialKakao from '../../../SocialKaKao';
 import { useSignup } from '../../../api/users';
 
 export default function SignUp() {
@@ -29,6 +30,7 @@ export default function SignUp() {
         <SignTitle>
           <span>왜이러닝</span>에 회원가입하기
         </SignTitle>
+        <SocialKakao />
         <FormContainer onSubmit={handleSubmit}>
           <InputWrapper>
             <Input
@@ -94,4 +96,5 @@ const Container = styled.div`
 
 const FormContainer = styled.form`
   width: 100%;
+  padding-top: 30px;
 `;

@@ -3,3 +3,5 @@ export { default as LogoText } from './svg/logo.svg';
 export { default as SearchIcon } from './svg/search.svg';
 export { default as Kakao } from './svg/kakao.svg';
 export { default as Pencil } from './svg/pencil.svg';
+export { default as Arrow } from './Vector.svg';
+export { default as RightArrow } from './RightArrow.svg';

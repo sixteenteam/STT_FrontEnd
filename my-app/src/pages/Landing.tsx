@@ -1,9 +1,7 @@
-/** @jsxImportSource @emotion/react */
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Logo } from '../assets';
 import { Outlet, useNavigate } from 'react-router-dom';
-import SocialKakao from '../SocialKaKao';
 
 const fadeIn = keyframes`
   from {
@@ -22,7 +20,8 @@ const LandingPage = () => {
     <Wrapper>
       <Image src={imageText.image} alt="Display" />
       <div>
-        <SocialKakao />
+        계정이 있으신가요?
+        <GoAuth onClick={() => navigate('/login')}> 로그인하기</GoAuth>
       </div>
       <div>
         계정이 없으신가요?

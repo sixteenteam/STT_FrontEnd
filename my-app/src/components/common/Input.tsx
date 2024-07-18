@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Props } from '../../App';
+import { useRef, useState, useEffect } from 'react';
 
 interface ContainerProps {
   width?: string | number;
@@ -14,11 +15,27 @@ const Input = ({
   type = 'text',
   ...props
 }: any) => {
+  const ref = useRef<HTMLInputElement | null>(null);
+  const [borderColor, setBOR] = useState('');
+  useEffect(() => {
+    if (ref.current) {
+      if (ref.current.value !== '') {
+        setBOR('#2f53ff');
+      } else {
+        setBOR('#e5e5e5');
+      }
+      ref.current.style.borderColor = borderColor;
+    }
+  }, [ref.current?.value]);
   return (
     <Wrapper>
       {label && <p className="label">{label}</p>}
       <InputContainer width={width} height={height}>
-        <input type={type !== 'password' ? type : 'password'} {...props} />
+        <input
+          ref={ref}
+          type={type !== 'password' ? type : 'password'}
+          {...props}
+        />
       </InputContainer>
     </Wrapper>
   );

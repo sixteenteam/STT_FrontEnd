@@ -6,6 +6,7 @@ interface ButtonProps {
   width?: string;
   color?: string;
   backgroundColor?: string;
+  height?: string;
   type?: 'button' | 'submit' | 'reset';
 }
 
@@ -14,12 +15,14 @@ const Button = ({
   onClick,
   width = '100%',
   color,
+  height = '50px',
   backgroundColor,
   type = 'submit',
 }: ButtonProps) => {
   return (
     <ButtonWrapper
       width={width}
+      height={height}
       color={color}
       onClick={onClick}
       backgroundColor={backgroundColor}
@@ -34,6 +37,7 @@ interface ButtonWrapperProps {
   width: string;
   color?: string;
   backgroundColor?: string;
+  height?: string;
 }
 
 const ButtonWrapper = styled.button<ButtonWrapperProps>`
