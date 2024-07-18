@@ -12,7 +12,7 @@ const QuizHistory = () => {
 
   return (
     <Wrapper>
-      <ArrowIcon src={Arrow} />
+      <ArrowIcon src={Arrow} onClick={() => navigate(-1)} />
       <LogoContainer>
         <LogoTitle>왜이러닝</LogoTitle>
       </LogoContainer>
